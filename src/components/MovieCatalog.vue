@@ -41,7 +41,7 @@
 import axios from 'axios';
 import FilterMovie from '@/components/FilterMovie.vue';
 
-const accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MDc0NjBiNzgzMzBkZGI3Y2VlYjQzM2U3ZGRkNTI5YSIsInN1YiI6IjY0N2U1YTE0MGUyOWEyMmJlMDhlMmU4MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fr5EDu3WyVpBWno32xSqVaXRvPIgZFFpDmcrz9M-7BA";
+const accessToken = process.env.VUE_APP_ACCESS_TOKEN;
 
 export default {
     name: 'MovieCatalog',
@@ -59,13 +59,27 @@ export default {
     },
     methods: {
         fetchMovies(page) {
+            axios
+                .get(`https://api.themoviedb.org/3/search/movie/?page=${page}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                .then(response => {
+                    this.movies = response.data.results;
+                    this.movieGroups = this.chunkArray(this.movies, 3);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        searchMovie() {
             const queryParams = {
                 query: this.query,
                 include_adult: this.includeAdult,
-                language: 'en-US',
             };
             axios
-                .get(`https://api.themoviedb.org/3/movie/upcoming?page=${page}`, {
+                .get(`https://api.themoviedb.org/3/search/movie?query=mad%20max`, {
                     params: queryParams,
                     headers: {
                         Authorization: `Bearer ${accessToken}`
@@ -81,8 +95,8 @@ export default {
         },
         applyFilters(filters) {
             this.includeAdult = filters.includeAdult;
-            this.query = filters.query;
-            this.fetchMovies(1);
+            this.query = encodeURIComponent(filters.query);
+            this.searchMovie(1);
         },
         truncateText(text, limit) {
             const words = text.split(' ');
@@ -112,6 +126,14 @@ export default {
         getPoster(url) {
             return `https://image.tmdb.org/t/p/w342/${url}`;
         }
+    },
+    watch: {
+        'FilterMovie.query': {
+            handler() {
+                this.searchMovie();
+            },
+            deep: true,
+        },
     },
     mounted() {
         axios

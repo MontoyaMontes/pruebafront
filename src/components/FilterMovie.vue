@@ -8,6 +8,8 @@
             <label for="adultSwitch" class="switch-label">Include Adult:</label>
             <input id="adultSwitch" type="checkbox" v-model="includeAdult" @change="applyFilters" />
         </div>
+        <button @click="applyFilters" class="btn btn-primary">Aplicar filtros</button>
+
     </div>
 </template>
   
@@ -22,10 +24,11 @@ export default {
     },
     methods: {
         applyFilters() {
-            this.$emit('filters-applied', {
-                query: JSON.stringify(this.query),
+            const filters = {
+                query: this.query,
                 includeAdult: this.includeAdult,
-            });
+            };
+            this.$emit('filters-applied', filters);
         },
     },
 };
