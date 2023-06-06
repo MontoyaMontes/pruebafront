@@ -1,19 +1,11 @@
 <template>
-  <NavbarMovies />
-  <CardsMovies msg="Welcome to Your Vue.js App" />
+  <router-view></router-view>
 </template>
 
 <script>
 
-import CardsMovies from './views/MovieCatalog.vue'
-import NavbarMovies from './components/NavbarMovies.vue';
-
 export default {
   name: 'App',
-  components: {
-    CardsMovies,
-    NavbarMovies
-  }
 }
 </script>
 

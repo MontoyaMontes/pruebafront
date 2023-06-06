@@ -1,3 +1,4 @@
+import { createRouter, createWebHistory } from "vue-router";
 import MovieCatalog from "../views/MovieCatalog.vue";
 import MovieDetail from "../views/MovieDetail.vue";
 
@@ -14,4 +15,9 @@ const routes = [
   },
 ];
 
-export default routes;
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export default router;

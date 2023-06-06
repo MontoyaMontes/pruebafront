@@ -11,16 +11,16 @@
             </button> 
         </div>
 
-        <div class="collapse navbar-collapse spacing" id="navbarNav">
+        <div class="collapse  navbar-collapse custom-nav" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sección 1</a>
+                    <a class="nav-link" href="#">Populares</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sección 2</a>
+                    <a class="nav-link" href="#">Top</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sección 3</a>
+                    <a class="nav-link" href="#">Nuevas</a>
                 </li>
             </ul>
 
@@ -34,17 +34,16 @@
         </div>
     </nav>
 </template>
-  
+
 <script>
 export default {
     name: 'NavbarMovies',
 };
 </script>
-  
+
 <style scoped>
-    .spacing{
+    .custom-nav{
         display: flex;
         justify-content: space-around;
     }
 </style>
-  

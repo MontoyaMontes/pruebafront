@@ -36,6 +36,7 @@ export default {
 .filters {
     display: flex;
     align-items: center;
+    padding: 2em;
 }
 
 .filter-item {

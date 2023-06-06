@@ -1,7 +1,8 @@
 <template>
+        <NavbarMovies></NavbarMovies>
+
     <div class="container">
         <FilterMovie @filters-applied="applyFilters" />
-
         <div id="carouselExample" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item" v-for="(movieGroup, groupIndex) in movieGroups" :key="movieGroup.id"
@@ -14,7 +15,7 @@
                                     <h5 class="card-title text-left">{{ movie.original_title }}</h5>
                                     <p class="card-text text-overview">{{ truncateText(movie.overview, 40) }}</p>
                                     <p class="card-text custom-text-right">{{ movie.release_date }}</p>
-                                    <a :href="'/movieDetail/' + movie.id" class="btn btn-primary">Ver más</a>
+                                    <router-link :to="`/movieDetail/${movie.id}`" class="btn btn-primary"> Ver más </router-link> 
                                 </div>
                             </div>
                         </div>
@@ -40,6 +41,7 @@
 
 import axios from 'axios';
 import FilterMovie from '@/components/FilterMovie.vue';
+import NavbarMovies from "../components/NavbarMovies.vue"
 
 const accessToken = process.env.VUE_APP_ACCESS_TOKEN;
 
@@ -47,6 +49,7 @@ export default {
     name: 'MovieCatalog',
     components: {
         FilterMovie,
+        NavbarMovies
     },
     data() {
         return {
