@@ -5,14 +5,14 @@
 
 <script>
 
-import CardsMovies from './components/MovieCatalog.vue'
+import CardsMovies from './views/MovieCatalog.vue'
 import NavbarMovies from './components/NavbarMovies.vue';
 
 export default {
   name: 'App',
   components: {
     CardsMovies,
-    NavbarMovies,
+    NavbarMovies
   }
 }
 </script>

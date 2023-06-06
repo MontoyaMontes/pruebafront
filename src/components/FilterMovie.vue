@@ -8,11 +8,9 @@
             <label for="adultSwitch" class="switch-label">Include Adult:</label>
             <input id="adultSwitch" type="checkbox" v-model="includeAdult" @change="applyFilters" />
         </div>
-        <button @click="applyFilters" class="btn btn-primary">Aplicar filtros</button>
-
     </div>
 </template>
-  
+
 <script>
 export default {
     name: 'FilterMovie',

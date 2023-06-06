@@ -4,7 +4,7 @@
 
         <div id="carouselExample" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item" v-for="(movieGroup, groupIndex) in movieGroups" :key="groupIndex"
+                <div class="carousel-item" v-for="(movieGroup, groupIndex) in movieGroups" :key="movieGroup.id"
                     :class="{ active: groupIndex === 0 }">
                     <div class="row">
                         <div class="col-md-4" v-for="(movie, index) in movieGroup" :key="index">
@@ -60,13 +60,14 @@ export default {
     methods: {
         fetchMovies(page) {
             axios
-                .get(`https://api.themoviedb.org/3/search/movie/?page=${page}`, {
+                .get(`https://api.themoviedb.org/3/movie/upcoming?page=${page}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 })
                 .then(response => {
                     this.movies = response.data.results;
+                    console.log("response.data.results",response.data.results);
                     this.movieGroups = this.chunkArray(this.movies, 3);
                 })
                 .catch(error => {
@@ -96,7 +97,13 @@ export default {
         applyFilters(filters) {
             this.includeAdult = filters.includeAdult;
             this.query = encodeURIComponent(filters.query);
-            this.searchMovie(1);
+
+            if (filters.query !== "") {
+                this.searchMovie(); 
+            }else{
+                this.fetchMovies(1);
+            }
+
         },
         truncateText(text, limit) {
             const words = text.split(' ');
@@ -136,39 +143,27 @@ export default {
         },
     },
     mounted() {
-        axios
-            .get('https://api.themoviedb.org/3/movie/upcoming?limit=9&page=1', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            .then(response => {
-                this.movies = response.data.results;
-                this.movieGroups = this.chunkArray(this.movies, 3);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        this.fetchMovies()
     },
-
 };
+
 </script>
   
 <style scoped>
 .row {
-    padding: 2em;
+    padding: 1em;
 }
 
 .card {
     padding: 1em;
-    background-color: #b1bdd6;
+    border: 1px solid #b1bdd6;
 }
 
 .custom-carousel-prev {
     position: absolute;
     left: -50px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-10%);
     z-index: 10;
 }
 
@@ -212,34 +207,12 @@ export default {
     font-weight: bold;
 }
 
-.carousel-caption .card-text {
+.card-text {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
-}
-
-.score-meter {
-    background-color: #f1f1f1;
-    color: #333;
-    border-radius: 5px;
-    padding: 5px 10px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.carousel-indicators {
-    bottom: 15px;
-}
-
-.carousel-indicators li {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #f1f1f1;
 }
 
 .carousel-indicators .active {
@@ -249,7 +222,7 @@ export default {
 .custom-carousel-next {
     background-color: black;
     position: absolute;
-    right: -180px;
+    right: -70px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
@@ -262,7 +235,7 @@ export default {
 .custom-carousel-prev {
     background-color: black;
     position: absolute;
-    left: -180px;
+    left: -50px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;

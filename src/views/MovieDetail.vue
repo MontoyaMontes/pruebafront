@@ -1,9 +1,7 @@
 <template>
     <div class="container">
-        <div v-if="movie">
-            <h2>{{ movie.original_title }}</h2>
-            <p>{{ movie.overview }}</p>
-        </div>
+        <h2>{{ movie.original_title }}</h2>
+        <p>{{ movie.overview }}</p>
     </div>
 </template>
 
@@ -13,14 +11,15 @@ import axios from 'axios';
 const accessToken = process.env.VUE_APP_ACCESS_TOKEN;
 
 export default {
-    name: 'MovieDetail',
+    // name: 'MovieDetail',
     data() {
         return {
-            movie: null
+            movie: {}
         };
     },
     mounted() {
         const idMovie = this.$route.params.idMovie;
+        console.log("Hola mundo", idMovie,this.$route.params);
         axios
             .get(`https://api.themoviedb.org/3/movie/${idMovie}`, {
                 headers: {
