@@ -1,4 +1,6 @@
-# example
+# VUE test
+
+A simple page using free movie API calls
 
 ## Project setup
 ```
